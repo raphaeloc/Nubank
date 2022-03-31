@@ -47,7 +47,7 @@ struct HomeView: View {
                 
                 ShortcutsView(shortcuts: $shortcuts)
                 
-                Spacer()
+                MyCardsView()
             }
         }
     }
@@ -165,6 +165,32 @@ private struct ShortcutsView: View {
     private func getSpace(for edge: ItemSpaceEdge, shortcut: Shortcut) -> CGFloat {
         guard let space = shortcut.space, edge == space.edge else { return 0 }
         return space.distance
+    }
+}
+
+private struct MyCardsView: View {
+    
+    var body: some View {
+        Button {
+            // any action
+        } label: {
+            HStack(spacing: 16) {
+                Image(systemName: "creditcard")
+                    .resizable()
+                    .renderingMode(.template)
+                    .frame(width: 20, height: 18)
+                    .foregroundColor(.black)
+                
+                Text("Meus cartões")
+                    .foregroundColor(.black)
+                    .font(.system(size: 12, weight: .light))
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .background(Color("grayItems"))
+        .cornerRadius(8)
+        .padding(16)
     }
 }
 
