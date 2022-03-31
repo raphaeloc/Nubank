@@ -180,8 +180,8 @@ private struct ShortcutsView: View {
                             Image(systemName: "barcode")
                                 .renderingMode(.template)
                                 .foregroundColor(.black)
+                                .frame(width: 64, height: 64)
                         }
-                        .frame(width: 64, height: 64)
                         .background(Color("grayItems"))
                         .cornerRadius(32)
                         
