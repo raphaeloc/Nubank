@@ -7,7 +7,36 @@
 
 import SwiftUI
 
+typealias Shortcuts = [Shortcut]
+
+struct Shortcut: Hashable {
+    let space: ItemSpace?
+}
+
+enum ItemSpaceEdge: Hashable {
+    case leading
+    case trailing
+}
+
+struct ItemSpace: Hashable {
+    let edge: ItemSpaceEdge
+    let distance: CGFloat
+}
+
 struct HomeView: View {
+    
+    @State var shortcuts: Shortcuts = [
+        Shortcut(space: ItemSpace(edge: .leading, distance: 16)),
+        Shortcut(space: nil),
+        Shortcut(space: nil),
+        Shortcut(space: nil),
+        Shortcut(space: nil),
+        Shortcut(space: nil),
+        Shortcut(space: nil),
+        Shortcut(space: nil),
+        Shortcut(space: ItemSpace(edge: .trailing, distance: 16))
+    ]
+    
     var body: some View {
         ScrollView {
             
@@ -15,6 +44,10 @@ struct HomeView: View {
                 HeaderView()
                 
                 AccountBalanceView()
+                
+                ShortcutsView(shortcuts: $shortcuts)
+                
+                Spacer()
             }
         }
     }
@@ -42,7 +75,7 @@ private struct HeaderView: View {
                 Spacer()
                 
                 Button {
-                    
+                    // any action
                 } label: {
                     Image(systemName: "eye")
                         .renderingMode(.template)
@@ -50,7 +83,7 @@ private struct HeaderView: View {
                 }
                 
                 Button {
-                    
+                    // any action
                 } label: {
                     Image(systemName: "questionmark.circle")
                         .renderingMode(.template)
@@ -58,7 +91,7 @@ private struct HeaderView: View {
                 }
                 
                 Button {
-                    
+                    // any action
                 } label: {
                     Image(systemName: "person.badge.plus")
                         .renderingMode(.template)
@@ -95,6 +128,43 @@ struct AccountBalanceView: View {
                 .font(.system(size: 18, weight: .semibold))
         }
         .padding(16)
+    }
+}
+
+private struct ShortcutsView: View {
+    
+    @Binding var shortcuts: Shortcuts
+    
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach($shortcuts, id: \.self) { shortcut in
+                    
+                    VStack {
+                        Button {
+                            // any action
+                        } label: {
+                            Image(systemName: "barcode")
+                                .renderingMode(.template)
+                                .foregroundColor(.black)
+                        }
+                        .frame(width: 64, height: 64)
+                        .background(Color("grayItems"))
+                        .cornerRadius(32)
+                        
+                        Text("barcode")
+                            .font(.system(size: 12, weight: .light))
+                    }
+                    .padding(.trailing, getSpace(for: .trailing, shortcut: shortcut.wrappedValue))
+                    .padding(.leading, getSpace(for: .leading, shortcut: shortcut.wrappedValue))
+                }
+            }
+        }
+    }
+    
+    private func getSpace(for edge: ItemSpaceEdge, shortcut: Shortcut) -> CGFloat {
+        guard let space = shortcut.space, edge == space.edge else { return 0 }
+        return space.distance
     }
 }
 
