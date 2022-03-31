@@ -13,6 +13,8 @@ struct HomeView: View {
             
             VStack {
                 HeaderView()
+                
+                AccountBalanceView()
             }
         }
     }
@@ -72,6 +74,27 @@ private struct HeaderView: View {
         .ignoresSafeArea(.all, edges: .top)
         .padding(16)
         .background(Color("primaryColor"))
+    }
+}
+
+struct AccountBalanceView: View {
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            HStack {
+                Text("Conta")
+                    .font(.system(size: 16))
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+            }
+            
+            Text("R$ 11,52")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.system(size: 18, weight: .semibold))
+        }
+        .padding(16)
     }
 }
 
