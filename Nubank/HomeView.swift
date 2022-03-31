@@ -7,9 +7,29 @@
 
 import SwiftUI
 
+protocol Spacable {
+    var space: ItemSpace? { get }
+    
+    func getSpace(for edge: ItemSpaceEdge) -> CGFloat
+}
+
+extension Spacable {
+    func getSpace(for edge: ItemSpaceEdge) -> CGFloat {
+        guard let space = space, edge == space.edge else { return 0 }
+        return space.distance
+    }
+}
+
 typealias Shortcuts = [Shortcut]
 
-struct Shortcut: Hashable {
+struct Shortcut: Hashable, Spacable {
+    let space: ItemSpace?
+}
+
+typealias Highlights = [Highlight]
+
+struct Highlight: Hashable, Spacable {
+    let text: String
     let space: ItemSpace?
 }
 
@@ -37,6 +57,12 @@ struct HomeView: View {
         Shortcut(space: ItemSpace(edge: .trailing, distance: 16))
     ]
     
+    @State var highlights: Highlights = [
+        Highlight(text: "Você tem até R$ 25.000,00 disponiveis para empréstimo.", space: ItemSpace(edge: .leading, distance: 16)),
+        Highlight(text: "Tem SHOPPING no seu bank, Conheça agora.", space: nil),
+        Highlight(text: "Tem SHOPPING no seu bank, Conheça agora.", space: ItemSpace(edge: .trailing, distance: 16))
+    ]
+    
     var body: some View {
         ScrollView {
             
@@ -48,8 +74,15 @@ struct HomeView: View {
                 ShortcutsView(shortcuts: $shortcuts)
                 
                 MyCardsView()
+                
+                HighlightsView(highlights: $highlights)
+                
+                Divider()
+                    .padding(.vertical, 16)
             }
+            .background(.white)
         }
+        .edgesIgnoringSafeArea(.top)
     }
 }
 
@@ -104,7 +137,7 @@ private struct HeaderView: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .ignoresSafeArea(.all, edges: .top)
+        .padding(.top, 42)
         .padding(16)
         .background(Color("primaryColor"))
     }
@@ -155,16 +188,11 @@ private struct ShortcutsView: View {
                         Text("barcode")
                             .font(.system(size: 12, weight: .light))
                     }
-                    .padding(.trailing, getSpace(for: .trailing, shortcut: shortcut.wrappedValue))
-                    .padding(.leading, getSpace(for: .leading, shortcut: shortcut.wrappedValue))
+                    .padding(.trailing, shortcut.wrappedValue.getSpace(for: .trailing))
+                    .padding(.leading, shortcut.wrappedValue.getSpace(for: .leading))
                 }
             }
         }
-    }
-    
-    private func getSpace(for edge: ItemSpaceEdge, shortcut: Shortcut) -> CGFloat {
-        guard let space = shortcut.space, edge == space.edge else { return 0 }
-        return space.distance
     }
 }
 
@@ -185,12 +213,46 @@ private struct MyCardsView: View {
                     .foregroundColor(.black)
                     .font(.system(size: 12, weight: .light))
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
         .background(Color("grayItems"))
         .cornerRadius(8)
         .padding(16)
+    }
+}
+
+private struct HighlightsView: View {
+    
+    @Binding var highlights: Highlights
+    
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            
+            HStack {
+                
+                ForEach($highlights, id: \.self) { highlight in
+                    
+                    Button {
+                        // any action
+                    } label: {
+                        Text("Você tem até R$ 25.000,00 disponiveis para empréstimo.")
+                            .fixedSize(horizontal: false, vertical: true)
+                            .multilineTextAlignment(.leading)
+                            .font(.system(size: 12, weight: .light))
+                            .foregroundColor(.black)
+                            .frame(maxWidth: UIScreen.main.bounds.width - 16 - 8 - 60, maxHeight: 80)
+                            .padding(.top, 24)
+                            .padding(.bottom, 32)
+                            .background(Color("grayItems"))
+                            .cornerRadius(8)
+                            .padding(.trailing, highlight.wrappedValue.getSpace(for: .trailing))
+                            .padding(.leading, highlight.wrappedValue.getSpace(for: .leading))
+                    }
+                }
+
+            }
+        }
     }
 }
 
