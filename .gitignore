@@ -1,0 +1,62 @@
+## Build generated
+DerivedData/
+.DS_Store
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+xcshareddata/
+*.xcuserstate
+
+## Other
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+.vscode
+*.orig
+KIF_SCREENSHOTS/*.*
+files_larger_100.txt
+
+## Obj-C/Swift specific
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## Playgrounds
+Playground
+timeline.xctimeline
+playground.xcworkspace
+
+# Swift Package Manager
+#
+# Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
+# Packages/
+# Package.pins
+# build/
+
+# CocoaPods - Refactored to standalone file
+Example/Pods/
+
+# Carthage 
+Carthage/Checkouts
+
+# Reports
+reports
+
+# Fastlane
+fastlane/*.xml
+fastlane/README.md
+
+# Sonar
+.scannerwork
+
+# CI Output
+upload_dsym_results
