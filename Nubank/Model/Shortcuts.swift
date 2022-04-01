@@ -10,7 +10,7 @@ import Foundation
 typealias Shortcuts = [Shortcut]
 
 struct Shortcut: Codable, Hashable, Spacable {
-    let space: ItemSpace?
+    var space: ItemSpace?
     let icon: String
     let text: String
 }

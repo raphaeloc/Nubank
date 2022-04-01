@@ -11,5 +11,5 @@ typealias Highlights = [Highlight]
 
 struct Highlight: Codable, Hashable, Spacable {
     let text: String
-    let space: ItemSpace?
+    var space: ItemSpace?
 }

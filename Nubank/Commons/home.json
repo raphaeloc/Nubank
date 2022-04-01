@@ -1,13 +1,13 @@
-[
+{
     "user": {
         "name": "Raphael"
     },
     "account": {
-        "balance": 11.52
+        "balance": 11545.87
     },
     "shortcuts": [
         {
-            "icon": "",
+            "icon": "hexagon",
             "text": "Área Pix"
         },
         {
@@ -15,44 +15,50 @@
             "text": "Pagar"
         },
         {
-            "icon": "",
+            "icon": "arrow.up.to.line.circle",
             "text": "Transferir"
         },
         {
-            "icon": "",
+            "icon": "arrow.down.to.line.circle",
             "text": "Depositar"
         },
         {
-            "icon": "",
+            "icon": "banknote",
             "text": "Pegar emprestado"
         },
         {
-            "icon": "",
+            "icon": "iphone.homebutton",
             "text": "Recarga de celular"
         },
         {
-            "icon": "",
+            "icon": "dollarsign.circle",
             "text": "Cobra"
         },
         {
-            "icon": "",
+            "icon": "heart",
             "text": "Doação"
         },
         {
-            "icon": "",
+            "icon": "arrow.up.to.line.circle",
             "text": "Transferir Internac."
         }
     ],
     "highlights": [
-        "Você tem até R$ 25.000,00 disponiveis para empréstimo.",
-        "Tem SHOPPING no seu bank, Conheça agora.",
-        "Salve seus amigos da burocracia. Faça um convite para o Nubank."
+        {
+            "text": "Você tem até R$ 25.000,00 disponiveis para empréstimo."
+        },
+        {
+            "text": "Tem SHOPPING no seu bank, Conheça agora."
+        },
+        {
+            "text": "Salve seus amigos da burocracia. Faça um convite para o Nubank."
+        }
     ],
     "creditCard": {
         "currentInvoice": 605.69,
         "availableLimit": 65.00
     },
     "loan": {
-        "available": 25000.00
+        "available": 250000.00
     }
-]
+}

@@ -30,12 +30,4 @@ class HomeViewModel: ObservableObject {
     init(homeModel: HomeModel) {
         self.homeModel = homeModel
     }
-    
-    func fetchHomeModel() {
-        guard let url = Bundle.main.url(forResource: "home", withExtension: "json"),
-              let data = try? Data(contentsOf: url, options: .mappedIfSafe),
-              let response = try? JSONDecoder().decode(HomeModel.self, from: data) else { return }
-        
-        homeModel = response
-    }
 }

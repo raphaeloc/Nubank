@@ -12,7 +12,7 @@ struct HomeView: View {
     @EnvironmentObject var viewModel: HomeViewModel
     
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             
             VStack {
                 HeaderView(user: $viewModel.homeModel.user)
@@ -319,15 +319,15 @@ struct HomeView_Previews: PreviewProvider {
         let viewModel = HomeViewModel(homeModel: HomeModel(user: User(name: "Raphael"),
                                                            account: Account(balance: 112332456.43),
                                                            shortcuts: [
-                                                            Shortcut(space: ItemSpace(edge: .leading, distance: 16), icon: "", text: "Área Pix"),
+                                                            Shortcut(space: ItemSpace(edge: .leading, distance: 16), icon: "hexagon", text: "Área Pix"),
                                                             Shortcut(space: nil, icon: "barcode", text: "Pagar"),
-                                                            Shortcut(space: nil, icon: "", text: "Transferir"),
-                                                            Shortcut(space: nil, icon: "", text: "Depositar"),
-                                                            Shortcut(space: nil, icon: "", text: "Pegar emprestado"),
-                                                            Shortcut(space: nil, icon: "", text: "Recarga de celular"),
-                                                            Shortcut(space: nil, icon: "", text: "Cobra"),
-                                                            Shortcut(space: nil, icon: "", text: "Doação"),
-                                                            Shortcut(space: ItemSpace(edge: .trailing, distance: 16), icon: "", text: "Transferir Internac.")
+                                                            Shortcut(space: nil, icon: "arrow.up.to.line.circle", text: "Transferir"),
+                                                            Shortcut(space: nil, icon: "arrow.down.to.line.circle", text: "Depositar"),
+                                                            Shortcut(space: nil, icon: "banknote", text: "Pegar emprestado"),
+                                                            Shortcut(space: nil, icon: "iphone.homebutton", text: "Recarga de celular"),
+                                                            Shortcut(space: nil, icon: "dollarsign.circle", text: "Cobra"),
+                                                            Shortcut(space: nil, icon: "heart", text: "Doação"),
+                                                            Shortcut(space: ItemSpace(edge: .trailing, distance: 16), icon: "arrow.up.to.line.circle", text: "Transferir Internac.")
                                                            ],
                                                            highlights: [
                                                             Highlight(text: "Você tem até R$ 25.000,00 disponiveis para empréstimo.", space: ItemSpace(edge: .leading, distance: 16)),
