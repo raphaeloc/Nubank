@@ -1,0 +1,58 @@
+[
+    "user": {
+        "name": "Raphael"
+    },
+    "account": {
+        "balance": 11.52
+    },
+    "shortcuts": [
+        {
+            "icon": "",
+            "text": "Área Pix"
+        },
+        {
+            "icon": "barcode",
+            "text": "Pagar"
+        },
+        {
+            "icon": "",
+            "text": "Transferir"
+        },
+        {
+            "icon": "",
+            "text": "Depositar"
+        },
+        {
+            "icon": "",
+            "text": "Pegar emprestado"
+        },
+        {
+            "icon": "",
+            "text": "Recarga de celular"
+        },
+        {
+            "icon": "",
+            "text": "Cobra"
+        },
+        {
+            "icon": "",
+            "text": "Doação"
+        },
+        {
+            "icon": "",
+            "text": "Transferir Internac."
+        }
+    ],
+    "highlights": [
+        "Você tem até R$ 25.000,00 disponiveis para empréstimo.",
+        "Tem SHOPPING no seu bank, Conheça agora.",
+        "Salve seus amigos da burocracia. Faça um convite para o Nubank."
+    ],
+    "creditCard": {
+        "currentInvoice": 605.69,
+        "availableLimit": 65.00
+    },
+    "loan": {
+        "available": 25000.00
+    }
+]

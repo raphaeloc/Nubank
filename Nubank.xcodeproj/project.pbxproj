@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF00E6FF27F696C500BD6354 /* home.json in Resources */ = {isa = PBXBuildFile; fileRef = CF00E6FE27F696C500BD6354 /* home.json */; };
+		CF00E70127F698E800BD6354 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF00E70027F698E800BD6354 /* HomeModel.swift */; };
+		CF00E70427F69CCB00BD6354 /* CurrencyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF00E70327F69CCB00BD6354 /* CurrencyExtensions.swift */; };
 		CFB8452E27F641AF00DF6D40 /* NubankApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB8452D27F641AF00DF6D40 /* NubankApp.swift */; };
 		CFB8453027F641AF00DF6D40 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB8452F27F641AF00DF6D40 /* HomeView.swift */; };
 		CFB8453227F641B100DF6D40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFB8453127F641B100DF6D40 /* Assets.xcassets */; };
@@ -21,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CF00E6FE27F696C500BD6354 /* home.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = home.json; sourceTree = "<group>"; };
+		CF00E70027F698E800BD6354 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
+		CF00E70327F69CCB00BD6354 /* CurrencyExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyExtensions.swift; sourceTree = "<group>"; };
 		CFB8452A27F641AF00DF6D40 /* Nubank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nubank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFB8452D27F641AF00DF6D40 /* NubankApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NubankApp.swift; sourceTree = "<group>"; };
 		CFB8452F27F641AF00DF6D40 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -46,6 +52,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CF00E6FD27F6966500BD6354 /* Commons */ = {
+			isa = PBXGroup;
+			children = (
+				CF00E6FE27F696C500BD6354 /* home.json */,
+			);
+			path = Commons;
+			sourceTree = "<group>";
+		};
+		CF00E70227F69C2600BD6354 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CF00E70327F69CCB00BD6354 /* CurrencyExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		CFB8452127F641AF00DF6D40 = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +87,8 @@
 		CFB8452C27F641AF00DF6D40 /* Nubank */ = {
 			isa = PBXGroup;
 			children = (
+				CF00E70227F69C2600BD6354 /* Extensions */,
+				CF00E6FD27F6966500BD6354 /* Commons */,
 				CFB8454527F67E0F00DF6D40 /* Protocols */,
 				CFB8453E27F67DCE00DF6D40 /* Model */,
 				CFB8453B27F67D5700DF6D40 /* Views */,
@@ -98,6 +122,7 @@
 				CFB8453F27F67DDE00DF6D40 /* ItemSpace.swift */,
 				CFB8454127F67DF200DF6D40 /* Highlights.swift */,
 				CFB8454327F67E0100DF6D40 /* Shortcuts.swift */,
+				CF00E70027F698E800BD6354 /* HomeModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -187,6 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFB8453527F641B100DF6D40 /* Preview Assets.xcassets in Resources */,
+				CF00E6FF27F696C500BD6354 /* home.json in Resources */,
 				CFB8453227F641B100DF6D40 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,7 +231,9 @@
 				CFB8454027F67DDE00DF6D40 /* ItemSpace.swift in Sources */,
 				CFB8453D27F67D6600DF6D40 /* HomeViewModel.swift in Sources */,
 				CFB8454227F67DF200DF6D40 /* Highlights.swift in Sources */,
+				CF00E70427F69CCB00BD6354 /* CurrencyExtensions.swift in Sources */,
 				CFB8452E27F641AF00DF6D40 /* NubankApp.swift in Sources */,
+				CF00E70127F698E800BD6354 /* HomeModel.swift in Sources */,
 				CFB8454427F67E0100DF6D40 /* Shortcuts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

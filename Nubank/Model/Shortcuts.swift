@@ -9,6 +9,8 @@ import Foundation
 
 typealias Shortcuts = [Shortcut]
 
-struct Shortcut: Hashable, Spacable {
+struct Shortcut: Codable, Hashable, Spacable {
     let space: ItemSpace?
+    let icon: String
+    let text: String
 }

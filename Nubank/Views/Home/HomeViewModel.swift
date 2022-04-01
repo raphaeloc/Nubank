@@ -10,21 +10,17 @@ import Combine
 
 class HomeViewModel: ObservableObject {
     
-    @Published var shortcuts: Shortcuts = [
-        Shortcut(space: ItemSpace(edge: .leading, distance: 16)),
-        Shortcut(space: nil),
-        Shortcut(space: nil),
-        Shortcut(space: nil),
-        Shortcut(space: nil),
-        Shortcut(space: nil),
-        Shortcut(space: nil),
-        Shortcut(space: nil),
-        Shortcut(space: ItemSpace(edge: .trailing, distance: 16))
-    ]
+    @Published var homeModel: HomeModel
     
-    @Published var highlights: Highlights = [
-        Highlight(text: "Você tem até R$ 25.000,00 disponiveis para empréstimo.", space: ItemSpace(edge: .leading, distance: 16)),
-        Highlight(text: "Tem SHOPPING no seu bank, Conheça agora.", space: nil),
-        Highlight(text: "Tem SHOPPING no seu bank, Conheça agora.", space: ItemSpace(edge: .trailing, distance: 16))
-    ]
+    init(homeModel: HomeModel) {
+        self.homeModel = homeModel
+    }
+    
+    func fetchHomeModel() {
+        guard let url = Bundle.main.url(forResource: "home", withExtension: "json"),
+              let data = try? Data(contentsOf: url, options: .mappedIfSafe),
+              let response = try? JSONDecoder().decode(HomeModel.self, from: data) else { return }
+        
+        homeModel = response
+    }
 }

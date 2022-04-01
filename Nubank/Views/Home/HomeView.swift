@@ -15,20 +15,20 @@ struct HomeView: View {
         ScrollView {
             
             VStack {
-                HeaderView()
+                HeaderView(user: $viewModel.homeModel.user)
                 
-                AccountBalanceView()
+                AccountBalanceView(account: $viewModel.homeModel.account)
                 
-                ShortcutsView(shortcuts: $viewModel.shortcuts)
+                ShortcutsView(shortcuts: $viewModel.homeModel.shortcuts)
                 
                 FilledIconButton(icon: "creditcard", text: "Meus cartões")
                     .padding(16)
                 
-                HighlightsView(highlights: $viewModel.highlights)
+                HighlightsView(highlights: $viewModel.homeModel.highlights)
                     .padding(.bottom, 16)
                 
                 CardView(image: "creditcard", text: "Cartão de crédito", isIconEnabled: true) {
-                    CreditCardContentView()
+                    CreditCardContentView(creditCard: $viewModel.homeModel.creditCard)
                 }
                 
                 CardView(image: "banknote", text: "Empréstimo", isIconEnabled: true) {
@@ -37,7 +37,7 @@ struct HomeView: View {
                             .font(.system(size: 12, weight: .semibold))
                             .foregroundColor(.gray)
                         
-                        Text("R$ 25.000,00")
+                        Text($viewModel.homeModel.wrappedValue.loan.available.currency ?? "")
                             .font(.system(size: 12, weight: .semibold))
                             .foregroundColor(.gray)
                     }
@@ -61,6 +61,8 @@ struct HomeView: View {
 
 private struct CreditCardContentView: View {
     
+    @Binding var creditCard: CreditCard
+    
     var body: some View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading, spacing: 4) {
@@ -68,11 +70,11 @@ private struct CreditCardContentView: View {
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundColor(.gray)
                 
-                Text("R$ 451,52")
+                Text($creditCard.wrappedValue.currentInvoice.currency ?? "")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .font(.system(size: 18, weight: .semibold))
                 
-                Text("Limite disponível de R$ 65.00")
+                Text("Limite disponível de \($creditCard.wrappedValue.availableLimit.currency ?? "")")
                     .font(.system(size: 10, weight: .semibold))
                     .foregroundColor(.gray)
             }
@@ -137,6 +139,8 @@ private struct CardView<Content: View>: View {
 
 private struct HeaderView: View {
     
+    @Binding var user: User
+    
     var body: some View {
         
         VStack(spacing: 16) {
@@ -181,7 +185,7 @@ private struct HeaderView: View {
                 }
             }
             
-            Text("Olá Raphael")
+            Text("Olá \(user.name)")
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -194,6 +198,8 @@ private struct HeaderView: View {
 
 struct AccountBalanceView: View {
     
+    @Binding var account: Account
+    
     var body: some View {
         VStack(spacing: 16) {
             HStack {
@@ -205,7 +211,7 @@ struct AccountBalanceView: View {
                 Image(systemName: "chevron.right")
             }
             
-            Text("R$ 11.324.451,52")
+            Text(account.balance.currency ?? "")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.system(size: 18, weight: .semibold))
         }
@@ -226,7 +232,7 @@ private struct ShortcutsView: View {
                         Button {
                             // any action
                         } label: {
-                            Image(systemName: "barcode")
+                            Image(systemName: shortcut.wrappedValue.icon)
                                 .renderingMode(.template)
                                 .foregroundColor(.black)
                                 .frame(width: 64, height: 64)
@@ -234,13 +240,18 @@ private struct ShortcutsView: View {
                         .background(Color("grayItems"))
                         .cornerRadius(32)
                         
-                        Text("barcode")
+                        Text(shortcut.wrappedValue.text)
+                            .frame(maxWidth: 64)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(0)
+                            .multilineTextAlignment(.center)
                             .font(.system(size: 12, weight: .light))
                     }
                     .padding(.trailing, shortcut.wrappedValue.getSpace(for: .trailing))
                     .padding(.leading, shortcut.wrappedValue.getSpace(for: .leading))
                 }
             }
+            
         }
     }
 }
@@ -259,14 +270,15 @@ private struct HighlightsView: View {
                     Button {
                         // any action
                     } label: {
-                        Text("Você tem até R$ 25.000,00 disponiveis para empréstimo.")
+                        Text(highlight.wrappedValue.text)
                             .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: UIScreen.main.bounds.width - 128)
                             .multilineTextAlignment(.leading)
                             .font(.system(size: 12, weight: .light))
                             .foregroundColor(.black)
-                            .frame(maxWidth: UIScreen.main.bounds.width - 16 - 8 - 60, maxHeight: 80)
                             .padding(.top, 24)
                             .padding(.bottom, 32)
+                            .padding(.horizontal, 16)
                             .background(Color("grayItems"))
                             .cornerRadius(8)
                             .padding(.trailing, highlight.wrappedValue.getSpace(for: .trailing))
@@ -281,7 +293,28 @@ private struct HighlightsView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
-            .environmentObject(HomeViewModel())
+        let viewModel = HomeViewModel(homeModel: HomeModel(user: User(name: "Raphael"),
+                                                           account: Account(balance: 112332456.43),
+                                                           shortcuts: [
+                                                            Shortcut(space: ItemSpace(edge: .leading, distance: 16), icon: "", text: "Área Pix"),
+                                                            Shortcut(space: nil, icon: "barcode", text: "Pagar"),
+                                                            Shortcut(space: nil, icon: "", text: "Transferir"),
+                                                            Shortcut(space: nil, icon: "", text: "Depositar"),
+                                                            Shortcut(space: nil, icon: "", text: "Pegar emprestado"),
+                                                            Shortcut(space: nil, icon: "", text: "Recarga de celular"),
+                                                            Shortcut(space: nil, icon: "", text: "Cobra"),
+                                                            Shortcut(space: nil, icon: "", text: "Doação"),
+                                                            Shortcut(space: ItemSpace(edge: .trailing, distance: 16), icon: "", text: "Transferir Internac.")
+                                                           ],
+                                                           highlights: [
+                                                            Highlight(text: "Você tem até R$ 25.000,00 disponiveis para empréstimo.", space: ItemSpace(edge: .leading, distance: 16)),
+                                                            Highlight(text: "Tem SHOPPING no seu bank, Conheça agora.", space: nil),
+                                                            Highlight(text: "Tem SHOPPING no seu bank, Conheça agora.", space: ItemSpace(edge: .trailing, distance: 16))
+                                                           ],
+                                                           creditCard: CreditCard(currentInvoice: 654.54, availableLimit: 65),
+                                                           loan: Loan(available: 2500000)))
+        
+        return HomeView()
+            .environmentObject(viewModel)
     }
 }

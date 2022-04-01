@@ -7,12 +7,12 @@
 
 import UIKit
 
-enum ItemSpaceEdge: Hashable {
+enum ItemSpaceEdge: String, Codable, Hashable {
     case leading
     case trailing
 }
 
-struct ItemSpace: Hashable {
+struct ItemSpace: Codable, Hashable {
     let edge: ItemSpaceEdge
     let distance: CGFloat
 }

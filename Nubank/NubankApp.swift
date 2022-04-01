@@ -12,7 +12,15 @@ struct NubankApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
-                .environmentObject(HomeViewModel())
+                .environmentObject(HomeViewModel(homeModel: homeModel))
         }
+    }
+    
+    var homeModel: HomeModel {
+        guard let url = Bundle.main.url(forResource: "home", withExtension: "json"),
+              let data = try? Data(contentsOf: url, options: .mappedIfSafe),
+              let response = try? JSONDecoder().decode(HomeModel.self, from: data) else { fatalError() }
+        
+        return response
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 typealias Highlights = [Highlight]
 
-struct Highlight: Hashable, Spacable {
+struct Highlight: Codable, Hashable, Spacable {
     let text: String
     let space: ItemSpace?
 }
