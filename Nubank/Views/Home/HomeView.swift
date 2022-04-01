@@ -36,6 +36,7 @@ struct HomeView: View {
         .edgesIgnoringSafeArea(.top)
     }
     
+    // MARK: - Cards
     @ViewBuilder func getCardViews(for cardType: Binding<CardType>) -> some View {
         switch cardType.wrappedValue {
         case .creditCard:
@@ -84,6 +85,7 @@ struct HomeView: View {
     }
 }
 
+// MARK: - Credit card content view
 private struct CreditCardContentView: View {
     
     @Binding var creditCard: CreditCard
@@ -110,6 +112,7 @@ private struct CreditCardContentView: View {
     }
 }
 
+// MARK: - Card view
 private struct CardHeaderView: View {
     
     let image: String
@@ -160,6 +163,7 @@ private struct CardView<Content: View>: View {
     }
 }
 
+// MARK: - Header view
 private struct HeaderView: View {
     
     @Binding var user: User
@@ -219,7 +223,8 @@ private struct HeaderView: View {
     }
 }
 
-struct AccountBalanceView: View {
+// MARK: - Account balance
+private struct AccountBalanceView: View {
     
     @Binding var account: Account
     
@@ -242,6 +247,7 @@ struct AccountBalanceView: View {
     }
 }
 
+// MARK: - Shortcuts view
 private struct ShortcutsView: View {
     
     @Binding var shortcuts: Shortcuts
@@ -279,6 +285,7 @@ private struct ShortcutsView: View {
     }
 }
 
+// MARK: - Highlights view
 private struct HighlightsView: View {
     
     @Binding var highlights: Highlights
@@ -314,6 +321,7 @@ private struct HighlightsView: View {
     }
 }
 
+// MARK: - Preview
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = HomeViewModel(homeModel: HomeModel(user: User(name: "Raphael"),
