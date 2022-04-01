@@ -7,61 +7,9 @@
 
 import SwiftUI
 
-protocol Spacable {
-    var space: ItemSpace? { get }
-    
-    func getSpace(for edge: ItemSpaceEdge) -> CGFloat
-}
-
-extension Spacable {
-    func getSpace(for edge: ItemSpaceEdge) -> CGFloat {
-        guard let space = space, edge == space.edge else { return 0 }
-        return space.distance
-    }
-}
-
-typealias Shortcuts = [Shortcut]
-
-struct Shortcut: Hashable, Spacable {
-    let space: ItemSpace?
-}
-
-typealias Highlights = [Highlight]
-
-struct Highlight: Hashable, Spacable {
-    let text: String
-    let space: ItemSpace?
-}
-
-enum ItemSpaceEdge: Hashable {
-    case leading
-    case trailing
-}
-
-struct ItemSpace: Hashable {
-    let edge: ItemSpaceEdge
-    let distance: CGFloat
-}
-
 struct HomeView: View {
     
-    @State var shortcuts: Shortcuts = [
-        Shortcut(space: ItemSpace(edge: .leading, distance: 16)),
-        Shortcut(space: nil),
-        Shortcut(space: nil),
-        Shortcut(space: nil),
-        Shortcut(space: nil),
-        Shortcut(space: nil),
-        Shortcut(space: nil),
-        Shortcut(space: nil),
-        Shortcut(space: ItemSpace(edge: .trailing, distance: 16))
-    ]
-    
-    @State var highlights: Highlights = [
-        Highlight(text: "Você tem até R$ 25.000,00 disponiveis para empréstimo.", space: ItemSpace(edge: .leading, distance: 16)),
-        Highlight(text: "Tem SHOPPING no seu bank, Conheça agora.", space: nil),
-        Highlight(text: "Tem SHOPPING no seu bank, Conheça agora.", space: ItemSpace(edge: .trailing, distance: 16))
-    ]
+    @EnvironmentObject var viewModel: HomeViewModel
     
     var body: some View {
         ScrollView {
@@ -71,18 +19,119 @@ struct HomeView: View {
                 
                 AccountBalanceView()
                 
-                ShortcutsView(shortcuts: $shortcuts)
+                ShortcutsView(shortcuts: $viewModel.shortcuts)
                 
-                MyCardsView()
+                FilledIconButton(icon: "creditcard", text: "Meus cartões")
+                    .padding(16)
                 
-                HighlightsView(highlights: $highlights)
+                HighlightsView(highlights: $viewModel.highlights)
+                    .padding(.bottom, 16)
                 
-                Divider()
-                    .padding(.vertical, 16)
+                CardView(image: "creditcard", text: "Cartão de crédito", isIconEnabled: true) {
+                    CreditCardContentView()
+                }
+                
+                CardView(image: "banknote", text: "Empréstimo", isIconEnabled: true) {
+                    VStack(alignment: .leading) {
+                        Text("Valor disponível de até")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.gray)
+                        
+                        Text("R$ 25.000,00")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.gray)
+                    }
+                }
+                
+                CardView(image: "chart.bar.fill", text: "Investimentos", isIconEnabled: true) {
+                    VStack(alignment: .leading) {
+                        Text("O jeito Nu de investir: sem asteriscos, liguagem fácil e a partir de R$1. Saiba mais.")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.gray)
+                        
+                        FilledIconButton(icon: "banknote", text: "Consultar saldo para transferência")
+                    }
+                }
             }
             .background(.white)
         }
         .edgesIgnoringSafeArea(.top)
+    }
+}
+
+private struct CreditCardContentView: View {
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Fatura atual")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(.gray)
+                
+                Text("R$ 451,52")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.system(size: 18, weight: .semibold))
+                
+                Text("Limite disponível de R$ 65.00")
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundColor(.gray)
+            }
+            
+            FilledButton(text: "Parcelar compras")
+                .padding(.vertical, 8)
+        }
+    }
+}
+
+private struct CardHeaderView: View {
+    
+    let image: String
+    let text: String
+    let isIconEnabled: Bool
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Image(systemName: image)
+                .resizable()
+                .renderingMode(.template)
+                .frame(width: 20, height: 18)
+                .foregroundColor(.black)
+            
+            HStack {
+                Text(text)
+                    .font(.system(size: 16, weight: .semibold))
+                
+                Spacer()
+                
+                if isIconEnabled {
+                    Image(systemName: "chevron.right")
+                        .foregroundColor(.gray)
+                }
+            }
+        }
+    }
+}
+
+private struct CardView<Content: View>: View {
+    let image: String
+    let text: String
+    let isIconEnabled: Bool
+    @ViewBuilder var content: Content
+    
+    var body: some View {
+        
+        VStack(spacing: 16) {
+            
+            Divider()
+            
+            VStack(alignment: .leading, spacing: 16) {
+                
+                CardHeaderView(image: image, text: text, isIconEnabled: isIconEnabled)
+                
+                content
+            }
+            .padding(.horizontal, 16)
+        }
     }
 }
 
@@ -156,7 +205,7 @@ struct AccountBalanceView: View {
                 Image(systemName: "chevron.right")
             }
             
-            Text("R$ 11,52")
+            Text("R$ 11.324.451,52")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.system(size: 18, weight: .semibold))
         }
@@ -193,32 +242,6 @@ private struct ShortcutsView: View {
                 }
             }
         }
-    }
-}
-
-private struct MyCardsView: View {
-    
-    var body: some View {
-        Button {
-            // any action
-        } label: {
-            HStack(spacing: 16) {
-                Image(systemName: "creditcard")
-                    .resizable()
-                    .renderingMode(.template)
-                    .frame(width: 20, height: 18)
-                    .foregroundColor(.black)
-                
-                Text("Meus cartões")
-                    .foregroundColor(.black)
-                    .font(.system(size: 12, weight: .light))
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .padding(16)
-        .background(Color("grayItems"))
-        .cornerRadius(8)
-        .padding(16)
     }
 }
 
@@ -259,5 +282,6 @@ private struct HighlightsView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .environmentObject(HomeViewModel())
     }
 }
