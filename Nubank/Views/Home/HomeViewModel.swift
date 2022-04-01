@@ -8,9 +8,24 @@
 import Foundation
 import Combine
 
+enum CardType {
+    case creditCard
+    case loan
+    case investments
+    case insurance
+    case shopping
+}
+
 class HomeViewModel: ObservableObject {
     
     @Published var homeModel: HomeModel
+    @Published var cardTypes: [CardType] = [
+        .creditCard,
+        .loan,
+        .investments,
+        .insurance,
+        .shopping
+    ]
     
     init(homeModel: HomeModel) {
         self.homeModel = homeModel

@@ -27,35 +27,60 @@ struct HomeView: View {
                 HighlightsView(highlights: $viewModel.homeModel.highlights)
                     .padding(.bottom, 16)
                 
-                CardView(image: "creditcard", text: "Cartão de crédito", isIconEnabled: true) {
-                    CreditCardContentView(creditCard: $viewModel.homeModel.creditCard)
-                }
-                
-                CardView(image: "banknote", text: "Empréstimo", isIconEnabled: true) {
-                    VStack(alignment: .leading) {
-                        Text("Valor disponível de até")
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundColor(.gray)
-                        
-                        Text($viewModel.homeModel.wrappedValue.loan.available.currency ?? "")
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundColor(.gray)
-                    }
-                }
-                
-                CardView(image: "chart.bar.fill", text: "Investimentos", isIconEnabled: true) {
-                    VStack(alignment: .leading) {
-                        Text("O jeito Nu de investir: sem asteriscos, liguagem fácil e a partir de R$1. Saiba mais.")
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundColor(.gray)
-                        
-                        FilledIconButton(icon: "banknote", text: "Consultar saldo para transferência")
-                    }
+                ForEach($viewModel.cardTypes, id: \.self) { cardType in
+                    getCardViews(for: cardType)
                 }
             }
             .background(.white)
         }
         .edgesIgnoringSafeArea(.top)
+    }
+    
+    @ViewBuilder func getCardViews(for cardType: Binding<CardType>) -> some View {
+        switch cardType.wrappedValue {
+        case .creditCard:
+            CardView(image: "creditcard", text: "Cartão de crédito", isIconEnabled: true) {
+                CreditCardContentView(creditCard: $viewModel.homeModel.creditCard)
+            }
+        case .loan:
+            CardView(image: "banknote", text: "Empréstimo", isIconEnabled: true) {
+                VStack(alignment: .leading) {
+                    Text("Valor disponível de até")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(.gray)
+                    
+                    Text($viewModel.homeModel.wrappedValue.loan.available.currency ?? "")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(.gray)
+                }
+            }
+        case .investments:
+            CardView(image: "chart.bar.fill", text: "Investimentos", isIconEnabled: true) {
+                VStack(alignment: .leading) {
+                    Text("O jeito Nu de investir: sem asteriscos, liguagem fácil e a partir de R$1. Saiba mais.")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(.gray)
+                    
+                    FilledIconButton(icon: "banknote", text: "Consultar saldo para transferência")
+                }
+            }
+        case .insurance:
+            CardView(image: "umbrella", text: "Seguros", isIconEnabled: false) {
+                VStack(alignment: .leading) {
+                    Text("Proteção para você cuidar do que importa")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(.gray)
+                    
+                    FilledIconButton(icon: "heart", text: "Seguro vida", rightText: "Conhecer")
+                }
+            }
+        case .shopping:
+            CardView(image: "bag", text: "Shopping", isIconEnabled: true) {
+                Text("Vantagens exclusivas das nossas marcas preferidas")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(.gray)
+            }
+        }
     }
 }
 
@@ -92,11 +117,9 @@ private struct CardHeaderView: View {
     let isIconEnabled: Bool
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 16) {
             Image(systemName: image)
-                .resizable()
                 .renderingMode(.template)
-                .frame(width: 20, height: 18)
                 .foregroundColor(.black)
             
             HStack {

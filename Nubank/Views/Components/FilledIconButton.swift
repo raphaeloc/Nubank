@@ -11,6 +11,7 @@ struct FilledIconButton: View {
     
     var icon: String
     var text: String
+    var rightText: String?
     
     var body: some View {
         Button {
@@ -26,6 +27,14 @@ struct FilledIconButton: View {
                 Text(text)
                     .foregroundColor(.black)
                     .font(.system(size: 12, weight: .regular))
+                
+                Spacer()
+                
+                if rightText != nil {
+                    Text(rightText ?? "")
+                        .foregroundColor(Color("primaryColor"))
+                        .font(.system(size: 12, weight: .regular))
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             
@@ -39,6 +48,6 @@ struct FilledIconButton: View {
 
 struct FilledIconButton_Previews: PreviewProvider {
     static var previews: some View {
-        FilledIconButton(icon: "creditcard", text: "Meus cartões")
+        FilledIconButton(icon: "creditcard", text: "Meus cartões", rightText: "Conhecer")
     }
 }
